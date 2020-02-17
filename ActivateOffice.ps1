@@ -22,7 +22,7 @@ If($bitness -eq "x86") {\
 # Run Activation
 
 $OFF_KEY = "XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99"
-$KMS_SRV = "kms.comprofix.com"
+$KMS_SRV = "<kms.server>"
 
 cscript //nologo ospp.vbs /inpkey:$OFF_KEY
 cscript //nologo ospp.vbs /sethst:$KMS_SRV
