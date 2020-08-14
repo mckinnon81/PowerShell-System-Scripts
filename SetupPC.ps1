@@ -64,9 +64,9 @@ New-Item $path -Force | New-ItemProperty -Name $Username -Value 0 -PropertyType 
 
 # Create folder C:\options
 
-$nfldr = new-object -ComObject scripting.filesystemobject
+#$nfldr = new-object -ComObject scripting.filesystemobject
 
-$nfldr.CreateFolder("C:\options")
+#$nfldr.CreateFolder("C:\options")
 
 # Get User List and save to C:\options
 
