@@ -13,8 +13,6 @@ $Boxstarter.NoPassword=$false # Is this a machine with no login password?
 $Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a reboot
 
 # Workaround for nested chocolatey folders resulting in path too long error
-$ChocoCachePath = "C:\Temp"
-New-Item -Path $ChocoCachePath -ItemType directory -Force | Out-null
 
 # Trust PSGallery
 Get-PackageProvider -Name NuGet -ForceBootstrap
