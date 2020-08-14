@@ -23,7 +23,6 @@ Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 # Temporary
 
 Disable-UAC
-set-executionpolicy Unrestricted -Force
 
 # Creating the restore point
 Checkpoint-Computer -Description "On-boarding" -RestorePointType "MODIFY_SETTINGS"
