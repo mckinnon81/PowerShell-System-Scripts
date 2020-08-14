@@ -7,6 +7,22 @@
 
 #Version 1.0- Authour Nick Lenius
 
+# Boxstarter options
+$Boxstarter.RebootOk=$true # Allow reboots?
+$Boxstarter.NoPassword=$false # Is this a machine with no login password?
+$Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a reboot
+
+# Workaround for nested chocolatey folders resulting in path too long error
+$ChocoCachePath = "C:\Temp"
+New-Item -Path $ChocoCachePath -ItemType directory -Force | Out-null
+
+# Trust PSGallery
+Get-PackageProvider -Name NuGet -ForceBootstrap
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+
+# Temporary
+
+Disable-UAC
 set-executionpolicy Unrestricted -Force
 
 # Creating the restore point
@@ -58,40 +74,46 @@ $nfldr.CreateFolder("C:\options")
 get-localuser  | Select name,Enabled > C:\Options\Userlist.txt
 
 # Set Power Settings to Monitor Off at 10 min. Sleep and HDD off never.
+Write-Host "Power settngs are saved"
+powercfg /change monitor-timeout-ac 0
+powercfg /change monitor-timeout-dc 0
+powercfg /change disk-timeout-ac 0
+powercfg /change disk-timeout-dc 0
+powercfg /change standby-timeout-ac 0
+powercfg /change standby-timeout-dc 0
 
- #powercfg /change monitor-timeout-ac 10
- #powercfg /change monitor-timeout-dc 10
 
-
- powercfg /change disk-timeout-ac 0
- powercfg /change disk-timeout-dc 0
-
- powercfg /change standby-timeout-ac 0
- powercfg /change standby-timeout-dc 0
-
- Write-Host "Power settngs are saved"
 
  # Set Timezone
 
- Set-TimeZone -Name "E. Australia Standard Time"
+Write-host "Set timezone to E. Australia Standard Time"
+Set-TimeZone -Name "E. Australia Standard Time"
 
- Write-host "Set timezone to E. Australia Standard Time"
+
 
 # Install Software
 
 # Add .Net 3.5
-Enable-WindowsOptionalFeature -Online -FeatureName "NetFx3"
+#Enable-WindowsOptionalFeature -Online -FeatureName "NetFx3"
+
 
 # Install Chocolatey
-iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
-
 # Install Chocolatey Software
-
+choco feature enable -n=allowGlobalConfirmation
+choco install anydesk.install -y
 choco install googlechrome -y
 choco install 7zip -y
-choco install notepad2 -y
+choco install notepad2-mod -y
 choco install notepadplusplus -y
 choco install vcredist-all -y
 choco install vlc -y
 choco install foxitreader -y
 choco install dotnetfx -y
+choco install dotnetcore -y
+choco install libreoffice -y
+choco install powershell-core -y
+
+
+Enable-MicrosoftUpdate
+Install-WindowsUpdate -acceptEula
+Enable-UAC
