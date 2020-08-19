@@ -1,4 +1,3 @@
-Start-Transcript -Path C:\Scripts\Get-HDD-Report.log
 
 Import-Module ActiveDirectory
 
@@ -134,9 +133,9 @@ writeHtmlHeader $freeSpaceFileName
 writeTableHeader $freeSpaceFileName
 
 #Get List of Servers
-$ADCOMPUTER = @(get-adcomputer -filter {OperatingSystem -like "Windows*Server*"} -Property * | Select Name)
+$computers = Get-ADComputer -Filter * -SearchBase "OU=Servers,OU=Computers,OU=Trio Trading,dc=trio,dc=local" | Select Name
 
-foreach ($PC in $ADCOMPUTER)
+foreach ($PC in $COMPUTERS)
 {
 $clowth = 25
 $cwarnth = 15
@@ -174,8 +173,8 @@ Add-Content $freeSpaceFileName "</table>"
 writeHtmlFooter $freeSpaceFileName
 
 #Email Details
-$From = "sysop@amcs.org.au"
-$To = "clientreports@zerolimit.com.au"
+$From = "helpdesk@triotrading.com.au"
+$To = "helpdesk@triotrading.com.au"
 $Subject = "Disk Usage Report - Servers"
 
 #Replace "-Raw" with "| Out-String" when using Powershell 2.0
@@ -196,7 +195,7 @@ $mycredentials = New-Object System.Management.Automation.PSCredential ($username
 
 #For Office 365 Set to smtp.office365.com
 #Set to SMTP Server or Local Exchange Server Name
-$SMTPSERVER = "mail.bigpond.com"
+$SMTPSERVER = "mx1.trio.local"
 
 #Add "-UseSSL -Credential $mycredentials" for Office 365 Authentication, Remove for Local Exchange
 Send-MailMessage -To $To -From $From -Subject $Subject -Body $Body -BodyAsHtml -Priority High -SmtpServer $SMTPSERVER
@@ -207,5 +206,3 @@ Send-MailMessage -To $To -From $From -Subject $Subject -Body $Body -BodyAsHtml -
 
 #Remove old Files - Powershell 2.0
 rd $freeSpaceFileName
-
-Stop-Transcript

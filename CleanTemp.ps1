@@ -58,6 +58,9 @@ Where-Object { ($_.CreationTime -le $(Get-Date).AddDays(-60)) } |
 Remove-Item -Force -Verbose -Recurse -ErrorAction SilentlyContinue
 ## All IIS Logfiles over x days old have been removed Successfully!
 
+#Removing tmp Files
+Get-ChildItem C:\* -Include *.tmp, ~*.*, *.partial -Recurse -ErrorAction SilentlyContinue | foreach ($_) {remove-item $_.fullname -Confirm:$false}
+
 
 
 $After =  Get-WmiObject Win32_LogicalDisk | Where-Object { $_.DriveType -eq "3" } | Select-Object SystemName,

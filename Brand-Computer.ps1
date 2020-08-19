@@ -13,11 +13,11 @@ https://weikingteh.wordpress.com/2015/01/13/powershell-script-to-insert-branding
 #>
 
 $logo = "logo.bmp"
-$scriptroot = "c:\windows\temp"
-$CoName = "Your Biz"
-$CoPhone = "(206) 555-1212"
-$CoHours = "8:00am to 5:00pm"
-$CoUrl = "https://yoursite.com"
+$scriptroot = "."
+$CoName = "Trio Brothers Trading Pty Ltd"
+$CoPhone = "(07) 3440 5000"
+$CoHours = "8:30am to 5:00pm"
+$CoUrl = "https://triotrading.com.au"
 
 
 If (-not(Test-Path c:\windows\system32\oobe\info\backgrounds)){New-item c:\windows\system32\oobe\info\backgrounds -type directory}
